@@ -1,32 +1,35 @@
-name: CI/CD Practice
+name: CI/CD Pipeline
 
 on:
-  pull_request:
-    branches: [main]
   push:
-    branches: [main]
-
-permissions:
-  contents: read
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  practice:
+  test:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Install dependencies - simulation
-        run: echo "Simulating dependency installation"
+      - name: Run Tests
+        run: echo "Running tests"
 
-      - name: Run tests - simulation
-        run: echo "Simulating tests"
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
 
-      - name: Build image - simulation
-        if: github.event_name == 'push'
-        run: echo "Simulating container image build"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Deploy - simulation
-        if: github.event_name == 'push'
-        run: echo "Deploying"
+      - name: Build Docker Image
+        run: docker build -t my-app .
+
+      - name: Deploy
+        run: echo "Deploying application"
