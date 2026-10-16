@@ -1,0 +1,32 @@
+name: CI/CD Practice
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  practice:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install dependencies - simulation
+        run: echo "Simulating dependency installation"
+
+      - name: Run tests - simulation
+        run: echo "Simulating tests"
+
+      - name: Build image - simulation
+        if: github.event_name == 'push'
+        run: echo "Simulating container image build"
+
+      - name: Deploy - simulation
+        if: github.event_name == 'push'
+        run: echo "Deploying"
